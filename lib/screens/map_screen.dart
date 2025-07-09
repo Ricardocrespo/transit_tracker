@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:transit_tracker/services/cached_tile_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -8,6 +11,8 @@ class MapScreen extends StatelessWidget {
   static const LatLng crossingCenter = LatLng(31.759195054758752, -106.45245281786063);
 
   static const double mileInDegrees = 0.0145;
+  
+  static final mapApiKey = dotenv.env['MAP_API_KEY'];
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +36,20 @@ class MapScreen extends StatelessWidget {
         ),
         children: [
           TileLayer(
-            urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            urlTemplate: 'https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=$mapApiKey',
+            tileProvider: CachedTileProvider(),
             userAgentPackageName: 'com.transittracker.mobile',
           ),
+          RichAttributionWidget(
+            attributions: [
+              TextSourceAttribution(
+                'MapTiler © OpenStreetMap contributors',
+                onTap: () => launchUrl(
+                  Uri.parse('https://www.openstreetmap.org/copyright'),
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
