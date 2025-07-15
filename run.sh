@@ -8,4 +8,4 @@ if [[ "$FLAVOR" != "dev" && "$FLAVOR" != "prod" ]]; then
 fi
 
 echo "Running TransitTracker with flavor: $FLAVOR"
-flutter run --flavor $FLAVOR -t lib/main.dart
+flutter run --flavor $FLAVOR --dart-define=flavor=$FLAVOR -t lib/main.dart

@@ -73,14 +73,20 @@ To debug in VS Code, add the following to `.vscode/launch.json`:
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--flavor", "dev"]
+      "args": [
+        "--flavor", "dev",
+        "--dart-define=flavor=dev"
+      ]
     },
     {
       "name": "Flutter Prod",
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
-      "args": ["--flavor", "prod"]
+      "args": [
+        "--flavor", "prod",
+        "--dart-define=flavor=prod"
+      ]
     }
   ]
 }
