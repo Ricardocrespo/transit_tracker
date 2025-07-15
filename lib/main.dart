@@ -1,24 +1,29 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'screens/map_screen.dart';
 
-void main() async {
-  await dotenv.load();
-  runApp(const TransitTracker());
-}
+import 'flavors.dart';
+import 'app.dart';
 
-class TransitTracker extends StatelessWidget {
-  const TransitTracker({super.key});
+/* Main entry point for the Transit Tracker application.
+ * It initializes the Flutter binding, loads the environment variables from asset files based on the app flavor,
+ * and runs the app.
+ *
+ * Usage:
+ * flutter run --flavor dev --dart-define=flavor=dev
+ * flutter run --flavor prod --dart-define=flavor=prod
+ */
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'TransitTracker',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-        useMaterial3: true,
-      ),
-      home: const MapScreen(),
-    );
-  }
+  const String env = String.fromEnvironment('flavor');
+  F.appFlavor = Flavor.values.firstWhere(
+    (element) => element.name == env,
+    orElse: () => Flavor.dev,
+  );
+
+  final assetEnvFile = 'assets/env/.env.${F.appFlavor.name}';
+  await dotenv.load(fileName: assetEnvFile);
+
+  runApp(const App());
 }

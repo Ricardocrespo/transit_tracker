@@ -14,8 +14,13 @@ class MapScreen extends StatelessWidget {
   
   static final mapApiKey = dotenv.env['MAP_API_KEY'];
 
+  static final mapBaseUrl = dotenv.env['MAP_BASE_URL'];
+
   @override
   Widget build(BuildContext context) {
+    if (mapBaseUrl == null) {
+      throw StateError('MAP_BASE_URL must be set in the environment');
+    }
     final bounds = LatLngBounds(
       LatLng(crossingCenter.latitude - mileInDegrees, crossingCenter.longitude - mileInDegrees),
       LatLng(crossingCenter.latitude + mileInDegrees, crossingCenter.longitude + mileInDegrees),
@@ -36,9 +41,9 @@ class MapScreen extends StatelessWidget {
         ),
         children: [
           TileLayer(
-            urlTemplate: 'https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=$mapApiKey',
+            urlTemplate: '$mapBaseUrl/tiles/{z}/{x}/{y}',
             tileProvider: CachedTileProvider(),
-            userAgentPackageName: 'com.transittracker.mobile',
+            userAgentPackageName: 'com.transittracker.app',
           ),
           RichAttributionWidget(
             attributions: [
