@@ -40,7 +40,7 @@ void main() {
 
   group('TileImageProvider', () {
     group('loadImage', () {
-      test('loads image from local asset without fetching cache or network',() async {
+      test('loads image from local asset without fetching cache or network', () async {
         final assetLoader = TestAssetBundle({
           testAssetPath: ByteData.view(fakeBytes.buffer),
         });

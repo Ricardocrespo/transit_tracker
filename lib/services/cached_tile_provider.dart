@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -117,7 +118,8 @@ class TileImageProvider extends ImageProvider<TileImageProvider> {
 
   Future<void> _applyBackoffWithJitter(int attempt) async {
     final random = Random();
-    final baseDelay = Duration(seconds: 1 << attempt);
+    final baseDelay = Duration(seconds: math.pow(2, attempt).toInt()); // Exponential backoff
+    // Add jitter to avoid thundering herd problem
     final jitter = Duration(milliseconds: random.nextInt(1000));
     final totalDelay = baseDelay + jitter;
 
@@ -126,21 +128,24 @@ class TileImageProvider extends ImageProvider<TileImageProvider> {
     await Future.delayed(totalDelay);
   }
 
-  Future<Uint8List> _fetchFromHttpWithRetry(String url) async {
-    try {
-      final response = await httpClient.get(Uri.parse(url));
-      if (response.statusCode == 429) {
-        debugPrint('Received 429. Delaying 5s before final retry...');
-        await Future.delayed(const Duration(seconds: 5));
-        return await _fetchFromHttpWithRetry(url); 
-      } else if (response.statusCode != 200) {
-        throw Exception('Tile fetch failed with status ${response.statusCode}: $url');
+  Future<Uint8List> _fetchFromHttpWithRetry(String url, {int maxAttempts = 3}) async {
+    for (int attempt = 0; attempt < maxAttempts; attempt++) {
+      try {
+        final response = await httpClient.get(Uri.parse(url));
+        if (response.statusCode == 429) {
+          debugPrint('Received 429. Delaying 5s before final retry...');
+          await Future.delayed(const Duration(seconds: 5));
+          return await _fetchFromHttpWithRetry(url); 
+        } else if (response.statusCode != 200) {
+          throw Exception('Tile fetch failed with status ${response.statusCode}: $url');
+        }
+        return response.bodyBytes;
+      } catch (e) {
+        debugPrint('HTTP fetch failed on attempt $attempt: $e');
+        if (attempt == maxAttempts - 1) rethrow;
       }
-      return response.bodyBytes;
-    } catch (e) {
-      debugPrint('HTTP fallback failed: $e');
-      rethrow;
     }
+    throw Exception('HTTP fetch failed after $maxAttempts attempts: $url');
   }
 
 }

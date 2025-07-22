@@ -10,7 +10,7 @@ fi
 
 echo "Running TransitTracker with flavor: $FLAVOR"
 if [[ -n "$OPTION" ]]; then
-  flutter run --flavor $FLAVOR --dart-define=flavor=$FLAVOR -t lib/main.dart -- $OPTION
+  flutter run --flavor $FLAVOR --dart-define=flavor=$FLAVOR $OPTION -t lib/main.dart
 else
   flutter run --flavor $FLAVOR --dart-define=flavor=$FLAVOR -t lib/main.dart
 fi
