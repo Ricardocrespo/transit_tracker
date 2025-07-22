@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:transit_tracker/models/point.dart';
 
 class NavDrawer extends StatelessWidget {
-  final List<Point> ports;
+  final List<Point> points;
   final Point selected;
   final void Function(Point) onSelect;
 
   const NavDrawer({
     super.key,
-    required this.ports,
+    required this.points,
     required this.selected,
     required this.onSelect,
   });
@@ -17,7 +17,7 @@ class NavDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: ports.map((point) {
+        children: points.map((point) {
           return ListTile(
             title: Text('${point.id}'),
             selected: selected.id == point.id,

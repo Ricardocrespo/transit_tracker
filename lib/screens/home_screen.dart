@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _pointsFuture = loadPortsFromJson().then((points) {
+    _pointsFuture = loadPointsFromJson().then((points) {
       _selectedPoint = points.first;
       return points;
     });
@@ -45,11 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }
 
-        final ports = snapshot.data!;
+        final points = snapshot.data!;
 
         return Scaffold(
           drawer: NavDrawer(
-            ports: ports,
+            points: points,
             selected: _selectedPoint,
             onSelect: _onSelect,
           ),

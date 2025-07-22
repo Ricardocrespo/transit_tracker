@@ -32,7 +32,8 @@ flutter:
     - assets/env/.env.dev
     - assets/env/.env.prod
     - assets/config/points.json
-    - assets/tiles/16/
+    - assets/tiles/
+    - test/assets/tiles/16/1337/420.png
   # fonts:
   #   - family: Schyler
   #     fonts:
