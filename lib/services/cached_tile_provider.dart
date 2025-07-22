@@ -10,8 +10,10 @@ import 'package:http/http.dart' as http;
 class CachedTileProvider extends TileProvider {
   final _cache = DefaultCacheManager();
   final String assetRoot;
+  final http.Client httpClient;
 
-  CachedTileProvider({this.assetRoot = 'assets/tiles'});
+  CachedTileProvider({this.assetRoot = 'assets/tiles', http.Client? httpClient})
+      : httpClient = httpClient ?? http.Client();
 
   @override
   ImageProvider getImage(TileCoordinates coordinates, TileLayer options) {
@@ -28,7 +30,7 @@ class CachedTileProvider extends TileProvider {
           .replaceAll('{x}', '$x')
           .replaceAll('{y}', '$y'),
       cacheManager: _cache,
-      httpClient: http.Client(),
+      httpClient: httpClient,
     );
   }
 }
