@@ -17,7 +17,7 @@ dependencies:
   url_launcher: ^6.3.1
 
 dev_dependencies:
-  build_runner: ^2.3.3
+  build_runner: ^2.4.6
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
@@ -31,6 +31,9 @@ flutter:
   assets:
     - assets/env/.env.dev
     - assets/env/.env.prod
+    - assets/config/points.json
+    - assets/tiles/
+    - test/assets/tiles/16/1337/420.png
   # fonts:
   #   - family: Schyler
   #     fonts:

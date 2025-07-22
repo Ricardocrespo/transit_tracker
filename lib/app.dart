@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:transit_tracker/screens/home_screen.dart';
 
 import 'flavors.dart';
-import 'screens/map_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -12,7 +11,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: F.title,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: _flavorBanner(child: const MapScreen(), show: kDebugMode),
+      home: _flavorBanner(child: const HomeScreen()),
     );
   }
 

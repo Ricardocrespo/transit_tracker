@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'screens/home_screen.dart';
 
 import 'flavors.dart';
-import 'app.dart';
 
 /* Main entry point for the Transit Tracker application.
  * It initializes the Flutter binding, loads the environment variables from asset files based on the app flavor,
@@ -25,5 +25,5 @@ Future<void> main() async {
   final assetEnvFile = 'assets/env/.env.${F.appFlavor.name}';
   await dotenv.load(fileName: assetEnvFile);
 
-  runApp(const App());
+  runApp(const MaterialApp(home: HomeScreen()));
 }
