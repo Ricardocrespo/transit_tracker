@@ -134,6 +134,13 @@ void main() {
   });
 }
 
+/// A mock asset bundle for testing purposes.
+/// It allows us to simulate loading assets without relying on the actual file system.
+/// [assets] A map of asset paths to their corresponding ByteData.
+/// [TestAssetBundle] implements the [CachingAssetBundle] interface to provide
+/// caching capabilities for the assets.
+/// 
+/// [load] method takes a key (asset path) and returns the ByteData for that asset.
 class TestAssetBundle extends CachingAssetBundle {
   final Map<String, ByteData> assets;
   TestAssetBundle(this.assets);
@@ -147,11 +154,12 @@ class TestAssetBundle extends CachingAssetBundle {
   }
 }
 
-/* Waits for the image to load completely, handling both success and error cases.
- * Returns a Future that completes when the image is loaded or fails after a timeout.
- * If the image fails to load, it will print the error and stack trace to the debug console.
- * 
- */
+/// Waits for the image to load completely, handling both success and error cases.
+/// Returns a Future that completes when the image is loaded or fails after a timeout.
+/// If the image fails to load, it will print the error and stack trace to the debug console.
+/// [completer] The ImageStreamCompleter to wait for.
+/// 
+/// Returns a Future that resolves when the image is loaded or fails.
 Future<void> waitForImageLoad(ImageStreamCompleter completer) {
   final completerFinished = Completer<void>();
   final stream = ImageStream();

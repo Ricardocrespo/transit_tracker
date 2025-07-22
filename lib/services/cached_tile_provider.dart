@@ -68,9 +68,10 @@ class TileImageProvider extends ImageProvider<TileImageProvider> {
   /// If all retries fail, it will fetch the image from the HTTP URL.
   /// Returns a valid image if successful, or throws an error if all attempts fail.
   ///
-  /// @param key The TileImageProvider key containing the asset path and fallback URL.
-  /// @param decode The callback to decode the image bytes into a codec.
-  /// @return A Future that resolves to a ui.Codec for the image.
+  /// [key] The TileImageProvider key containing the asset path and fallback URL.
+  /// [decode] The callback to decode the image bytes into a codec.
+  /// 
+  /// returns a Future that resolves to a ui.Codec for the image.
   ///
   Future<ui.Codec> _loadAsync(TileImageProvider key, ImageDecoderCallback decode) async {
     Uint8List bytes;
@@ -91,9 +92,10 @@ class TileImageProvider extends ImageProvider<TileImageProvider> {
   /// Fetches the image bytes from the cache manager with retry logic.
   /// If the cache fetch fails, it will retry up to 3 times with exponential backoff and jitter.
   /// If all retries fail, it will fetch the image from the HTTP URL.
-  /// @param url The URL to fetch the image from.
-  /// @param retries The number of retry attempts (default is 3).
-  /// @return A Future that resolves to the image bytes.
+  /// [url] The URL to fetch the image from.
+  /// [retries] The number of retry attempts (default is 3).
+  /// 
+  /// returns a Future that resolves to the image bytes.
   ///
   Future<Uint8List> _fetchWithRetry(String url, {int retries = 3}) async {
     for (int attempt = 0; attempt < retries; attempt++) {
@@ -128,9 +130,10 @@ class TileImageProvider extends ImageProvider<TileImageProvider> {
   /// Fetches the image from HTTP with retry logic.
   /// If the HTTP fetch fails, it will retry up to 3 times with exponential backoff and jitter.
   /// If all retries fail, it will throw an error.
-  /// @param url The URL to fetch the image from.
-  /// @param maxAttempts The maximum number of retry attempts (default is 3).
-  /// @return A Future that resolves to the image bytes.
+  /// [url] The URL to fetch the image from.
+  /// [maxAttempts] The maximum number of retry attempts (default is 3).
+  /// 
+  /// returns a Future that resolves to the image bytes.
   ///
   Future<Uint8List> _fetchFromHttpWithRetry(String url, {int maxAttempts = 3}) async {
     for (int attempt = 0; attempt < maxAttempts; attempt++) {
