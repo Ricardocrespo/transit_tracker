@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
@@ -62,18 +61,17 @@ class TileImageProvider extends ImageProvider<TileImageProvider> {
     );
   }
 
-  /*
-  * Attempts to load the image from the asset first, and if it fails,
-  * it will try to fetch it from the cache manager or HTTP fallback.
-  * If the asset is not found, it will retry fetching from the cache
-  * up to 3 times with exponential backoff and jitter.
-  * If all retries fail, it will fetch the image from the HTTP URL.
-  * Returns a valid image if successful, or throws an error if all attempts fail.
-  *
-  * @param key The TileImageProvider key containing the asset path and fallback URL.
-  * @param decode The callback to decode the image bytes into a codec.
-  * @return A Future that resolves to a ui.Codec for the image.
-  */
+  /// Attempts to load the image from the asset first, and if it fails,
+  /// it will try to fetch it from the cache manager or HTTP fallback.
+  /// If the asset is not found, it will retry fetching from the cache
+  /// up to 3 times with exponential backoff and jitter.
+  /// If all retries fail, it will fetch the image from the HTTP URL.
+  /// Returns a valid image if successful, or throws an error if all attempts fail.
+  ///
+  /// @param key The TileImageProvider key containing the asset path and fallback URL.
+  /// @param decode The callback to decode the image bytes into a codec.
+  /// @return A Future that resolves to a ui.Codec for the image.
+  ///
   Future<ui.Codec> _loadAsync(TileImageProvider key, ImageDecoderCallback decode) async {
     Uint8List bytes;
 
@@ -90,14 +88,13 @@ class TileImageProvider extends ImageProvider<TileImageProvider> {
     return decode(buffer);
   }
 
-  /*
-  * Fetches the image bytes from the cache manager with retry logic.
-  * If the cache fetch fails, it will retry up to 3 times with exponential backoff and jitter.
-  * If all retries fail, it will fetch the image from the HTTP URL.
-  * @param url The URL to fetch the image from.
-  * @param retries The number of retry attempts (default is 3).
-  * @return A Future that resolves to the image bytes.
-  */
+  /// Fetches the image bytes from the cache manager with retry logic.
+  /// If the cache fetch fails, it will retry up to 3 times with exponential backoff and jitter.
+  /// If all retries fail, it will fetch the image from the HTTP URL.
+  /// @param url The URL to fetch the image from.
+  /// @param retries The number of retry attempts (default is 3).
+  /// @return A Future that resolves to the image bytes.
+  ///
   Future<Uint8List> _fetchWithRetry(String url, {int retries = 3}) async {
     for (int attempt = 0; attempt < retries; attempt++) {
       try {
@@ -117,7 +114,7 @@ class TileImageProvider extends ImageProvider<TileImageProvider> {
   }
 
   Future<void> _applyBackoffWithJitter(int attempt) async {
-    final random = Random();
+    final random = math.Random();
     final baseDelay = Duration(seconds: math.pow(2, attempt).toInt()); // Exponential backoff
     // Add jitter to avoid thundering herd problem
     final jitter = Duration(milliseconds: random.nextInt(1000));
@@ -128,14 +125,21 @@ class TileImageProvider extends ImageProvider<TileImageProvider> {
     await Future.delayed(totalDelay);
   }
 
+  /// Fetches the image from HTTP with retry logic.
+  /// If the HTTP fetch fails, it will retry up to 3 times with exponential backoff and jitter.
+  /// If all retries fail, it will throw an error.
+  /// @param url The URL to fetch the image from.
+  /// @param maxAttempts The maximum number of retry attempts (default is 3).
+  /// @return A Future that resolves to the image bytes.
+  ///
   Future<Uint8List> _fetchFromHttpWithRetry(String url, {int maxAttempts = 3}) async {
     for (int attempt = 0; attempt < maxAttempts; attempt++) {
       try {
         final response = await httpClient.get(Uri.parse(url));
         if (response.statusCode == 429) {
-          debugPrint('Received 429. Delaying 5s before final retry...');
+          debugPrint('Received 429. Delaying 5s before retry...');
           await Future.delayed(const Duration(seconds: 5));
-          return await _fetchFromHttpWithRetry(url); 
+          continue; // Tile Server is rate-limiting, retry after delay
         } else if (response.statusCode != 200) {
           throw Exception('Tile fetch failed with status ${response.statusCode}: $url');
         }
