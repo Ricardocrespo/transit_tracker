@@ -21,7 +21,7 @@ class CachedTileProvider extends TileProvider {
     final x = coordinates.x.round();
     final y = coordinates.y.round();
 
-    final assetPath = '$assetRoot/$z/$x/$y.png';
+    final assetPath = '$assetRoot/$z/${x}_$y.png';
 
     return TileImageProvider(
       assetPath: assetPath,
@@ -82,8 +82,9 @@ class TileImageProvider extends ImageProvider<TileImageProvider> {
       // Attempt to load from local asset
       final assetBytes = await rootBundle.load(key.assetPath);
       bytes = assetBytes.buffer.asUint8List();
-    } catch (_) {
-      // Asset not found, fallback to cache manager or fetched tile
+    } catch (e) {
+      debugPrint('Local resource not found: $e');
+      debugPrint('Stacktrace: ${StackTrace.current}');
       bytes = await _fetchWithRetry(key.fallbackUrl);
     }
 

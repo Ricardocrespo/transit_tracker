@@ -14,7 +14,7 @@ migrate_working_dir/
 .env
 assets/tiles/
 test/assets/
-assets/config/points.json
+assets/config/zones.json
 
 # IntelliJ related
 *.iml

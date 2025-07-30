@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:file/file.dart';
 import 'package:flutter/foundation.dart';
@@ -19,8 +18,8 @@ import 'cached_tile_provider_test.mocks.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const testAssetPath = 'assets/tiles/16/1234/5678.png';
-  const testUrl = 'http://10.0.2.2:3000/tiles/16/1234/5678.png';
+  const testAssetPath = 'assets/tiles/16/1234_5678.png';
+  const testUrl = 'http://10.0.2.2:3000/tiles/16/1234_5678.png';
 
   late MockBaseCacheManager mockCacheManager;
   late MockClient mockHttpClient;
@@ -103,7 +102,7 @@ void main() {
         when(mockCacheManager.getSingleFile(testUrl)).thenAnswer((_) async => emptyFile);
 
         final fileBytes = (await rootBundle.load(
-          'test/assets/tiles/16/1337/420.png',
+          'test/assets/tiles/16/1337_420.png',
         )).buffer.asUint8List();
         final http200 = http.Response.bytes(fileBytes, 200);
         when(
