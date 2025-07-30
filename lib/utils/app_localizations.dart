@@ -25,7 +25,11 @@ class AppLocalizations {
   }
 
   String translate(String key) {
-    return _localizedStrings[key] ?? '** $key not found';
+    if (!_localizedStrings.containsKey(key)) {
+      debugPrint('Missing translation key: $key');
+      return 'Translation not available';
+    }
+    return _localizedStrings[key]!;
   }
 
   // Static accessor for convenience
