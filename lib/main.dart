@@ -1,9 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'screens/home_screen.dart';
+import 'package:transit_tracker/utils/app_localizations.dart';
+import 'package:transit_tracker/utils/language_preferences.dart';
 
+import 'app.dart';
 import 'flavors.dart';
+
 
 /* Main entry point for the Transit Tracker application.
  * It initializes the Flutter binding, loads the environment variables from asset files based on the app flavor,
@@ -16,6 +19,12 @@ import 'flavors.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  final defaultLocale = WidgetsBinding.instance.platformDispatcher.locale;
+  final savedLocale = await LanguagePreferences.loadLocale();
+  final localeToUse = savedLocale ?? defaultLocale;
+
+  await AppLocalizations().load(localeToUse);
+  
   const String env = String.fromEnvironment('flavor');
   F.appFlavor = Flavor.values.firstWhere(
     (element) => element.name == env,
@@ -25,5 +34,5 @@ Future<void> main() async {
   final assetEnvFile = 'assets/env/.env.${F.appFlavor.name}';
   await dotenv.load(fileName: assetEnvFile);
 
-  runApp(const MaterialApp(home: HomeScreen()));
+  runApp(const MaterialApp(home: App()));
 }
