@@ -1,6 +1,10 @@
 {
   "language.en": "English",
   "language.es": "Español",
+  "location.disabled": "Los servicios de ubicación están desactivados.",
+  "location.permanentlyDenied": "Los permisos de ubicación están denegados. Por favor, habilítalos en la configuración.",
+  "location.reported": "Tu reporte ha sido enviado, gracias.",
+  "location.outOfRange": "Estás demasiado lejos del cruce para reportar tu posición.",
   "navigation.zone.1": "Zona 1",
   "navigation.point.1": "Nueva York",
   "navigation.point.2": "Ciudad de México",
