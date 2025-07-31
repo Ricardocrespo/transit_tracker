@@ -1,6 +1,10 @@
 {
   "language.en": "English",
   "language.es": "Español",
+  "location.disabled": "Location services are disabled.",
+  "location.permanentlyDenied": "Location permissions are denied. Please enable them in settings.",
+  "location.reported": "Your report has been sent, thank you.",
+  "location.outOfRange": "You are too far from the crossing to report your position.",
   "navigation.zone.1": "Zone 1",
   "navigation.point.1": "New York",
   "navigation.point.2": "Mexico City",
