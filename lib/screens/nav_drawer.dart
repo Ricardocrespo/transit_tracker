@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:transit_tracker/models/point.dart';
 import 'package:transit_tracker/models/zone.dart';
-import 'package:transit_tracker/utils/app_localizations.dart';
+import 'package:transit_tracker/utils/lang/app_localizations.dart';
 
 class NavDrawer extends StatelessWidget {
   final List<Zone> zones;

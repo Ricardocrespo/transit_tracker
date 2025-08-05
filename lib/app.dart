@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:transit_tracker/screens/home_screen.dart';
-import 'package:transit_tracker/utils/language_preferences.dart';
+import 'package:transit_tracker/utils/lang/language_preferences.dart';
 
 import 'flavors.dart';
-import 'utils/app_localizations.dart';
+import 'utils/lang/app_localizations.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
