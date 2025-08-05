@@ -4,7 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:transit_tracker/services/location_service.dart';
 
-import 'geolocator_plaform_mock.dart';
+import 'geolocator_platform_mock.dart';
 
 void main() {
   late MockGeolocatorPlatform mockGeolocatorPlatform;

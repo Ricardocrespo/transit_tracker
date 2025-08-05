@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class FloatingButton extends StatelessWidget {
   final Alignment alignment;
   final VoidCallback onPressed;
-  //final IconData icon;
   final Widget icon;
   final String heroTag;
   final bool isDisabled;
