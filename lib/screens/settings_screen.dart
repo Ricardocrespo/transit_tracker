@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:transit_tracker/utils/app_localizations.dart';
-import 'package:transit_tracker/utils/language_options.dart';
+import 'package:transit_tracker/utils/lang/app_localizations.dart';
+import 'package:transit_tracker/utils/lang/language_options.dart';
 
 class SettingsScreen extends StatefulWidget {
   final void Function(Locale) onLanguageChange;

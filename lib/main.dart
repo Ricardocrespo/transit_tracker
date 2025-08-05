@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:transit_tracker/utils/app_localizations.dart';
-import 'package:transit_tracker/utils/language_preferences.dart';
+import 'package:transit_tracker/utils/lang/app_localizations.dart';
+import 'package:transit_tracker/utils/lang/language_preferences.dart';
 
 import 'app.dart';
 import 'flavors.dart';
