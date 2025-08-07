@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -23,12 +24,17 @@ class LocationService {
     return LocationPermissionStatus.granted;
   }
 
-  static Future<LatLng?> getCurrentLocation() async {
-    final position = await Geolocator.getCurrentPosition(
-      locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.high
-      ),
-    );
-    return LatLng(position.latitude, position.longitude);
+  static Future<Position?> getCurrentLocation() async {
+   try {
+      return await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
+      );
+    } catch (e) {
+      // Handle the case where the location is not available
+      debugPrint('Error getting current location: $e');
+      return null;
+    }
   }
 }

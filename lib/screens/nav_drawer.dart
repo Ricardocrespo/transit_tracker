@@ -36,7 +36,6 @@ class NavDrawer extends StatelessWidget {
                     color: Colors.black87,
                   ),
                 ),
-                dense: true,
                 enabled: false,
               ),
             ),
@@ -52,6 +51,7 @@ class NavDrawer extends StatelessWidget {
                   Navigator.of(context).pop();
                   onSelect(point);
                 },
+                visualDensity: const VisualDensity(vertical: -4.0),
               ),
           ],
           const Divider(),

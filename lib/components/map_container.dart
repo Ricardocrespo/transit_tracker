@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MapContainer extends StatelessWidget {
   final LatLng center;
@@ -37,6 +38,16 @@ class MapContainer extends StatelessWidget {
       children: [
         tileLayer,
         ...additionalLayers,
+        RichAttributionWidget(
+            attributions: [
+              TextSourceAttribution(
+                'MapTiler © OpenStreetMap contributors',
+                onTap: () => launchUrl(
+                  Uri.parse('https://www.openstreetmap.org/copyright'),
+                ),
+              ),
+            ],
+          )
       ],
     );
   }
