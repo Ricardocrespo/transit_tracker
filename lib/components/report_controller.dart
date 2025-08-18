@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:transit_tracker/components/floating_button.dart';
 import 'package:transit_tracker/models/point.dart';
-import 'package:transit_tracker/models/report.dart';
+import 'package:transit_tracker/models/report_submission.dart';
 import 'package:transit_tracker/services/location_service.dart';
 import 'package:transit_tracker/services/report_service.dart';
 import 'package:transit_tracker/utils/device.dart';
@@ -55,7 +55,7 @@ class _ReportControllerState extends State<ReportController> {
       return;
     }
 
-    final report = Report(
+    final report = ReportSubmission(
       latitude: currentPosition.latitude,
       longitude: currentPosition.longitude,
       timestamp: DateTime.now(),

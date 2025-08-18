@@ -2,25 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:transit_tracker/components/floating_button.dart';
 import 'package:transit_tracker/components/map_container.dart';
+import 'package:transit_tracker/components/recency_overlay_dots.dart';
 import 'package:transit_tracker/components/report_controller.dart';
 import 'package:transit_tracker/models/point.dart';
 import 'package:transit_tracker/services/cached_tile_provider.dart';
 import 'package:transit_tracker/utils/geo/bounds.dart';
 
-
-class MapScreen extends StatefulWidget {
+class MapScreen extends StatelessWidget {
   final Point selectedPoint;
 
   const MapScreen({super.key, required this.selectedPoint});
 
-  @override
-  State<MapScreen> createState() => _MapScreenState();
-}
-
-class _MapScreenState extends State<MapScreen> {
-
   void _onMapReady() {
-    // Future: trigger heatmap rendering
+    // hook for future live fetch or cache invalidation
   }
 
   @override
@@ -28,10 +22,10 @@ class _MapScreenState extends State<MapScreen> {
     return Stack(
       children: [
         MapContainer(
-          key: ValueKey(widget.selectedPoint.id),
-          center: widget.selectedPoint.location,
+          key: ValueKey(selectedPoint.id),
+          center: selectedPoint.location,
           bounds: expandBoundsAround(
-            widget.selectedPoint.location,
+            selectedPoint.location,
             meters: 1000,
           ),
           onMapReady: _onMapReady,
@@ -41,9 +35,15 @@ class _MapScreenState extends State<MapScreen> {
             tileProvider: CachedTileProvider(),
             userAgentPackageName: 'com.transittracker.app',
           ),
-          additionalLayers: const [],
+          additionalLayers: const [
+            RecencyDotsOverlay(
+              clusterRadiusMeters: 20,   // tweak 15–30m to taste
+              minRadiusPx: 6,
+              maxRadiusPx: 18,
+            ),
+          ],
         ),
-        ReportController(selectedPoint: widget.selectedPoint),
+        ReportController(selectedPoint: selectedPoint),
         FloatingButton(
           alignment: Alignment.topLeft,
           heroTag: 'navigation_drawer',

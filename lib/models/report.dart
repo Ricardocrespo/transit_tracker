@@ -1,38 +1,23 @@
 class Report {
-  final double latitude;
-  final double longitude;
   final DateTime timestamp;
-  final int zoneId;
-  final int pointId;
-  final String source;
-  final String deviceId;      // hashed + salted
-  final String platform;
-  final String appVersion;
-  final double? accuracy;     // optional, useful for filtering
+  final double lat;
+  final double lng;
 
   Report({
-    required this.latitude,
-    required this.longitude,
     required this.timestamp,
-    required this.zoneId,
-    required this.pointId,
-    required this.source,
-    required this.deviceId,
-    required this.platform,
-    required this.appVersion,
-    this.accuracy,
+    required this.lat,
+    required this.lng,
   });
 
-  Map<String, dynamic> toJson() => {
-    'latitude': latitude,
-    'longitude': longitude,
-    'timestamp': timestamp.toIso8601String(),
-    'zoneId': zoneId,
-    'pointId': pointId,
-    'source': source,
-    'deviceId': deviceId,
-    'platform': platform,
-    'appVersion': appVersion,
-    if (accuracy != null) 'accuracy': accuracy,
-  };
+  factory Report.fromJson(Map<String, dynamic> j) => Report(
+        timestamp: DateTime.parse(j['timestamp']).toUtc(),
+        lat: (j['lat'] as num).toDouble(),
+        lng: (j['lng'] as num).toDouble(),
+      );
+
+  Report copyWith({DateTime? timestamp, double? lat, double? lng}) => Report(
+      timestamp: timestamp ?? this.timestamp,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
+    );
 }
