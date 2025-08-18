@@ -45,6 +45,7 @@ flutter:
     - assets/config/zones.json
     - assets/tiles/16/
     - assets/lang/
+    - assets/mock_reports.json
     - test/assets/tiles/16/1337_420.png
   # fonts:
   #   - family: Schyler
