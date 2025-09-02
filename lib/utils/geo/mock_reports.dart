@@ -1,7 +1,7 @@
 import 'dart:convert' show json;
 
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:transit_tracker/models/report.dart';
+import 'package:transit_tracker/models/reporting/report.dart';
 import 'package:transit_tracker/services/report_service.dart';
 
 class ReportsLoader {

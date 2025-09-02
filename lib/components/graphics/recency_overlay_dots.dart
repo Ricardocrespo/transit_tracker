@@ -52,7 +52,7 @@ class _RecencyDotsOverlayState extends State<RecencyDotsOverlay> {
     // sort older→newer so newer draws on top
     clusters.sort((a, b) => a.latestTimestamp.compareTo(b.latestTimestamp));
 
-    final scale = RecencyScale.fromReports(reports);
+    final scale = RecencyScale();
     final sizer = DotSizer(minR: widget.minRadiusPx, maxR: widget.maxRadiusPx);
 
     _markers = clusters.map((c) {

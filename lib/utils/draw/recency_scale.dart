@@ -1,53 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:transit_tracker/models/report.dart';
+import 'package:transit_tracker/models/graphics/bucket.dart';
+import 'package:transit_tracker/models/graphics/palette.dart';
 
+/// Fixed, discrete recency buckets and colors.
+/// Newest (0–5m) is RED → Oldest (60m+) is PURPLE.
 class RecencyScale {
+  RecencyScale({DateTime? now}) : _now = (now ?? DateTime.now().toUtc());
+
   final DateTime _now;
-  late final double _minAge;
-  late final double _denom;
 
-  RecencyScale._(this._now, this._minAge, this._denom);
+  /// Buckets in minutes since `now`.
+  /// We include 35–45 to keep a continuous rainbow.
+  static const List<Bucket> _buckets = [
+    Bucket(minInclusive: 0,  maxExclusive: 5,   key: 'legend.0_5',   color: Palette.red),
+    Bucket(minInclusive: 5,  maxExclusive: 15,  key: 'legend.5_15',  color: Palette.orange),
+    Bucket(minInclusive: 15, maxExclusive: 25,  key: 'legend.15_25', color: Palette.yellow),
+    Bucket(minInclusive: 25, maxExclusive: 35,  key: 'legend.25_35', color: Palette.green),
+    Bucket(minInclusive: 35, maxExclusive: 45,  key: 'legend.35_45', color: Palette.blue),
+    Bucket(minInclusive: 45, maxExclusive: 55,  key: 'legend.45_55', color: Palette.purple),
+    Bucket(minInclusive: 55, maxExclusive: null,key: 'legend.older', color: Palette.indigo), 
+  ];
 
-  factory RecencyScale.fromReports(List<Report> reports, {DateTime? now}) {
-    final n = now ?? DateTime.now().toUtc();
-
-    final ages = reports // Compute age in minutes for each report
-        .map((r) => n.difference(r.timestamp).inMinutes.toDouble())
-        .toList();
-    if (ages.isEmpty) { // If there are no ages (no reports), return a scale that won't fail
-      return RecencyScale._(n, 0, 1);
+  /// Returns the bucket for a given timestamp.
+  Bucket bucketFor(DateTime ts) {
+    final ageMin = _now.difference(ts).inMinutes.toDouble();
+    for (final b in _buckets) {
+      if (b.contains(ageMin)) return b;
     }
-
-    double minAge = ages.first, maxAge = ages.first;
-    // Iterate over ages to find min/max
-    for (final a in ages) {
-      if (a < minAge) minAge = a;
-      if (a > maxAge) maxAge = a;
-    }
-    // If all reports are from the same minute, avoid division by zero
-    // This will be used as the denominator to normalize all ages into [0.0, 1.0]
-    final span = (maxAge - minAge).abs();
-    return RecencyScale._(n, minAge, span == 0 ? 1.0 : span);
+    // Fallback (shouldn’t happen): treat as oldest.
+    return _buckets.last;
   }
 
-  /// Maps a specific timestamp to a color along the red→purple gradient.
-  /// Newest timestamps (age near _minAge) are red, oldest (age near _minAge + _denom) are purple.
-  Color colorFor(DateTime ts) {
-    final age = _now.difference(ts).inMinutes.toDouble(); // Age in minutes
-    // Subtract _minAge so the youngest report has t = 0.0
-    // Divide by _denom to spread ages evenly across the gradient range
-    // Clamp to [0.0, 1.0] so outliers don't break the color mapping.
-    final t = ((age - _minAge) / _denom).clamp(0.0, 1.0);
-    final hue = 0 + 260 * t;
-    return HSVColor.fromAHSV(1, hue, 0.9, 0.95).toColor();
+  /// Color for a timestamp using fixed buckets.
+  Color colorFor(DateTime ts) => bucketFor(ts).color;
+
+  /// Color for an age in minutes (if you already computed ages).
+  Color colorForAgeMinutes(double minutes) {
+    for (final b in _buckets) {
+      if (b.contains(minutes)) return b.color;
+    }
+    return _buckets.last.color;
   }
 
-  /// Generates a discrete set of colors for a legend bar,
-  /// going from oldest (purple) to newest (red) when displayed left-to-right.
-  List<Color> legendGradient({int steps = 6}) {
-    return List<Color>.generate(
-        steps, (i) => HSVColor.fromAHSV(1, 260 * i / (steps - 1), 0.9, 0.95).toColor())
-      .reversed
-      .toList(); // newest on left
+  /// Legend colors in Newest → Oldest order.
+  List<Color> legendColors() {
+    return _buckets.map((b) => b.color).toList();
+  }
+
+  /// Legend i18n keys in the same order as [legendColors].
+  List<String> legendKeys() {
+    return _buckets.map((b) => b.key).toList();
   }
 }
