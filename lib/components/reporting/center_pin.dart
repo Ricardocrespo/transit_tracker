@@ -39,10 +39,10 @@ class CenterPin extends StatelessWidget {
               offset: Offset(0, dy),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Icons.location_pin, size: 44, color: Colors.red),
-                  SizedBox(height: 2),
-                  DecoratedBox(
+                children: [
+                  Icon(Icons.location_pin, size: pinSize, color: Colors.red),
+                  const SizedBox(height: 2),
+                  const DecoratedBox(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(0, 0, 0, 0.12),
                       borderRadius: BorderRadius.all(Radius.circular(4)),
