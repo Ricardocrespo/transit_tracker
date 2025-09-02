@@ -9,6 +9,7 @@ class MapContainer extends StatelessWidget {
   final VoidCallback onMapReady;
   final TileLayer tileLayer;
   final List<Widget> additionalLayers;
+  final MapController mapController;
 
   const MapContainer({
     super.key,
@@ -17,12 +18,11 @@ class MapContainer extends StatelessWidget {
     required this.onMapReady,
     required this.tileLayer,
     required this.additionalLayers,
+    required this.mapController,
   });
 
   @override
   Widget build(BuildContext context) {
-    final mapController = MapController();
-
     return FlutterMap(
       mapController: mapController,
       options: MapOptions(

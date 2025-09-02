@@ -1,5 +1,5 @@
 import 'dart:math' as math;
-import 'package:transit_tracker/models/report.dart';
+import 'package:transit_tracker/models/reporting/report.dart';
 
 /// Output container for a clustered group of nearby reports.
 class ClusterCell {

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
-import 'package:transit_tracker/models/zone.dart';
+import 'package:transit_tracker/models/location/zone.dart';
 
 Future<List<Zone>> loadZonesFromJson() async {
   final String jsonString = await rootBundle.loadString('assets/config/zones.json');

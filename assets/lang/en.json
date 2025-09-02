@@ -1,8 +1,21 @@
 {
+  "common.confirm": "Confirm",
+  "common.cancel": "Cancel",
   "language.en": "English",
   "language.es": "Español",
+  "legend.0_5": "0-5 minutes ago",
+  "legend.5_15": "5-15 minutes ago",
+  "legend.15_25": "15-25 minutes ago",
+  "legend.25_35": "25-35 minutes ago",
+  "legend.35_45": "35-45 minutes ago",
+  "legend.45_55": "45-55 minutes ago",
+  "legend.newest": "Newest",
+  "legend.older": "more than 55 minutes ago",
+  "legend.oldest": "oldest reports",
+  "legend.subtitle": "Each color shows when people reported their location:",
+  "legend.title": "Legend",
   "location.disabled": "Location services are disabled.",
-  "location.outOfRange": "You are too far from the crossing to report your position.",
+  "location.outOfRange": "You are too far from the crossing to center your position.",
   "location.permanentlyDenied": "Location permissions are denied. Please enable them in settings.",
   "location.reported": "Your report has been sent, thank you.",
   "location.reportFailed": "Failed to send the report. Please try again.",
@@ -13,5 +26,8 @@
   "navigation.point.3": "London",
   "navigation.point.4": "Paris",
   "navigation.settings": "Settings",
+  "report.setLocation": "Move the map to set your location",
+  "report.recenter": "Recenter to my GPS",
   "settings.language": "Language"
+  
 }
